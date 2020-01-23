@@ -10,7 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import Notifications, { notify } from "react-notify-toast";
 import Context from "../../Context/Context";
-// import { createPost } from '../lib/api';
+import { createPost } from "../../lib/api";
 const errorToastColor = {
   background: "#f23535",
   text: "#fff"
@@ -67,17 +67,74 @@ class NewPost extends Component {
   static contextType = Context;
   state = {
     text: "",
-    photoName: "",
-    error: ""
+    photoName: ""
   };
-  componentDidMount = () => {};
-  handleSubmitPost = async event => {};
+
+  componentDidMount = () => {
+    this.toast = notify.createShowQueue();
+    this.formData = new FormData();
+  };
+
+  handleSubmitPost = async event => {
+    let stateObj = this.state;
+
+    for (let key in stateObj) {
+      this.formData.set(key, stateObj[key]);
+    }
+
+    try {
+      let success = await createPost(this.formData);
+      console.log(success);
+
+      //   this.context.handleSignin(success);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   handleChange = name => event => {
     this.setState({
       text: event.target.value
     });
   };
-  handleFileUpload = event => {};
+
+  handleFileUpload = event => {
+    let err = [];
+    const file = Array.from(event.target.files);
+
+    if (file.length > 1) {
+      err.push(`Only one photo allowed`);
+    }
+
+    if (
+      file[0].type !== "image/jpeg" &&
+      file[0].type !== "image/jpg" &&
+      file[0].type !== "image/png"
+    ) {
+      err.push(`${file[0].type} is not supported format`);
+    }
+
+    if (file[0].size > 5000000) {
+      err.push(`File too large, max 5MG`);
+    }
+
+    if (err.length) {
+      return err.forEach(err =>
+        //! 4000 how long message up
+        this.toast(err, "custom", 4000, errorToastColor)
+      );
+    }
+
+    this.formData.set("photo", file[0]);
+    const msg = `New post picture uploaded`;
+
+    this.toast(msg, "custom", 2000, toastColor);
+
+    this.setState({
+      photoName: file[0].name
+    });
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -112,7 +169,12 @@ class NewPost extends Component {
                 className={classes.photoButton}
                 component="span"
               >
-                <PhotoCameraIcon /> Your profile picture here
+                <PhotoCameraIcon />{" "}
+                {this.state.photoName && (
+                  <span className={classes.imageName}>
+                    {this.state.photoName}
+                  </span>
+                )}
               </IconButton>
             </label>{" "}
             <span className={classes.filename}>
@@ -133,6 +195,7 @@ class NewPost extends Component {
               variant="contained"
               onClick={this.handleSubmitPost}
               className={classes.submit}
+              disabled={this.state.text === ""}
             >
               POST
             </Button>

@@ -52,3 +52,20 @@ export const signin = async userInfo => {
     return e.response.data.message;
   }
 };
+
+export const createPost = async postInfo => {
+  try {
+    let token = localStorage.getItem("jwtToken-reddit");
+    console.log(postInfo);
+
+    let success = await Axios.post("api/post/create-post", postInfo, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    console.log(success.data);
+    return success.data;
+  } catch (e) {
+    return e.response.data.message;
+  }
+};
