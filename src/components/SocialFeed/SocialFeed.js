@@ -4,6 +4,7 @@ import { Card, CardContent, CardMedia } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import CreatePost from './CreatePost/CreatePost'
+import PostList from "../PostList/PostList";
 
 const styles = theme => ({
   card: {
@@ -31,7 +32,7 @@ class SocialFeed extends Component {
             <Divider/>
             <CreatePost/>
             <Divider/>
-            Post List
+            <PostList />
         </Card>
     );
   }

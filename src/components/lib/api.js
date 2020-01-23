@@ -2,6 +2,7 @@ import Axios from "./Axios/Axios";
 import jwt_decode from "jwt-decode";
 //! automatically converts this.props.history
 import { createBrowserHistory } from "history";
+import setAuthToken from "./Axios/setAuthToken";
 
 export const checkTokenAuth = () => {
   let jwtToken = localStorage.getItem("jwtToken-reddit");
@@ -18,15 +19,13 @@ export const checkTokenAuth = () => {
       // window.location.href = '/sign-in'
 
       createBrowserHistory().push("/");
+
+      setAuthToken(null);
     } else {
+      setAuthToken(jwtToken);
       return decoded;
     }
-  } else {
-    //go to login
   }
-
-  //   try {
-  //   } catch (e) {}
 };
 
 export const signup = async userInfo => {
@@ -55,15 +54,7 @@ export const signin = async userInfo => {
 
 export const createPost = async postInfo => {
   try {
-    let token = localStorage.getItem("jwtToken-reddit");
-    console.log(postInfo);
-
-    let success = await Axios.post("api/post/create-post", postInfo, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    console.log(success.data);
+    let success = await Axios.post("api/post/create-post", postInfo);
     return success.data;
   } catch (e) {
     return e.response.data.message;
