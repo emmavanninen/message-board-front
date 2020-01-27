@@ -5,6 +5,7 @@ export default React.createContext({
   user: null,
   handleSignin: () => {},
   logout: () => {},
-  handleNewPost: () => {},
-  newPost: []
+  posts: [],
+  getAllPosts: () => {},
+  createPost: () => {}
 });

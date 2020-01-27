@@ -55,8 +55,6 @@ class Post extends Component {
   componentDidMount = async () => {;
   };
 
-    // componentDidUpdate = async () => { console.log('poop')}
-
   componentWillReceiveProps = props => {};
 
   checkLike = likes => {};
@@ -66,7 +64,10 @@ class Post extends Component {
     this.setState({ comments: comments });
   };
 
-  deletePost = () => {};
+  deletePost = () => {
+    
+
+  };
   render() {
     {
     //   console.log(`props`, this.props.post);
@@ -77,13 +78,12 @@ class Post extends Component {
       <Card className={classes.card}>
         <CardHeader
           avatar={<Avatar src={""} />}
-          // action={this.props.post.postedBy._id === this.context.user.id &&
-          //   <IconButton onClick={this.deletePost}>
-          //     <DeleteIcon />
-          //   </IconButton>
-          //}
-          //   title={<Link to={''}>{this.props.post.postedBy.name}</Link>}
-          title={<Link to={""}>{this.props.post.postedBy.username}</Link>}
+          action={this.props.post.postedBy._id === this.context.user.id &&
+            <IconButton onClick={this.deletePost}>
+              <DeleteIcon />
+            </IconButton>
+          }
+            title={<Link to={''}>{this.props.post.postedBy.username}</Link>}
           subheader={this.props.post.created}
           className={classes.cardHeader}
         />

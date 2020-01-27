@@ -53,6 +53,8 @@ export const signin = async userInfo => {
 };
 
 export const createPost = async postInfo => {
+    console.log(`info`, postInfo);
+    
   try {
     let success = await Axios.post("api/post/create-post", postInfo);
     return success.data;
@@ -62,6 +64,9 @@ export const createPost = async postInfo => {
 };
 
 export const getAllPosts = async () => {
+    let jwtToken = localStorage.getItem("jwtToken-reddit");
+    checkTokenAuth(jwtToken)
+    
     try {
         let success = await Axios.get('api/post/get-all-posts')
         return success.data

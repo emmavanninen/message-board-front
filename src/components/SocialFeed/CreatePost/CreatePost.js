@@ -70,7 +70,8 @@ class NewPost extends Component {
 
   state = {
     text: "",
-    photoName: ""
+    photoName: "",
+    error: ''
   };
 
   componentDidMount = () => {
@@ -86,9 +87,13 @@ class NewPost extends Component {
     }
 
     try {
+        
       let success = await createPost(this.formData);
-
-      this.context.handleNewPost(success);
+      this.context.createPost(success);
+      this.setState({
+        text: "",
+        photoName: ""
+      });
     } catch (e) {
       console.log(e);
     }
@@ -139,7 +144,6 @@ class NewPost extends Component {
 
   render() {
     const { classes } = this.props;
-    const { handleNewPost, newPost } = this.context;
 
     return (
       <div className={classes.root}>

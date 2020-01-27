@@ -5,7 +5,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { indigo, pink } from "@material-ui/core/colors";
 import MainRouter from "./MainRouter";
 import Context from "./components/Context/Context";
-import { checkTokenAuth } from "./components/lib/api";
+import { checkTokenAuth, getAllPosts } from "./components/lib/api";
 
 const theme = createMuiTheme({
   palette: {
@@ -29,7 +29,8 @@ export default class App extends Component {
   state = {
     isAuth: false,
     user: null,
-    newPost: []
+    newPost: [],
+    posts: []
   };
 
   componentDidMount() {
@@ -38,7 +39,27 @@ export default class App extends Component {
     if (user) {
       this.handleSignin(user);
     }
+    this.getAllPosts();
   }
+
+  getAllPosts = async () => {
+    try {
+      let success = await getAllPosts();
+
+      this.setState({
+        posts: success
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  createPost = post => {
+    this.setState({
+        posts: [post, ...this.state.posts]
+    })
+
+  };
 
   handleSignin = userInfo => {
     this.setState({
@@ -58,16 +79,8 @@ export default class App extends Component {
     localStorage.removeItem("jwtToken-reddit");
   };
 
-    handleNewPost = post => {
-        console.log(post);
-        this.setState({ newPost: [...this.state.newPost, post] })
-        // this.context.newPost = post
-        // console.log(this.context);
-  };
 
   render() {
-    console.log(`!!!`, this.state.newPost);
-
     return (
       <Context.Provider
         value={{
@@ -75,8 +88,9 @@ export default class App extends Component {
           user: this.state.user,
           handleSignin: this.handleSignin,
           logout: this.logout,
-          handleNewPost: this.handleNewPost,
-          newPost: this.state.newPost
+          getAllPosts: this.getAllPosts,
+          posts: this.state.posts,
+          createPost: this.createPost
         }}
       >
         {" "}
