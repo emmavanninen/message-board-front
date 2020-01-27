@@ -28,7 +28,8 @@ const theme = createMuiTheme({
 export default class App extends Component {
   state = {
     isAuth: false,
-    user: null
+    user: null,
+    newPost: []
   };
 
   componentDidMount() {
@@ -57,14 +58,25 @@ export default class App extends Component {
     localStorage.removeItem("jwtToken-reddit");
   };
 
+    handleNewPost = post => {
+        console.log(post);
+        this.setState({ newPost: [...this.state.newPost, post] })
+        // this.context.newPost = post
+        // console.log(this.context);
+  };
+
   render() {
+    console.log(`!!!`, this.state.newPost);
+
     return (
       <Context.Provider
         value={{
           isAuth: this.state.isAuth,
           user: this.state.user,
           handleSignin: this.handleSignin,
-          logout: this.logout
+          logout: this.logout,
+          handleNewPost: this.handleNewPost,
+          newPost: this.state.newPost
         }}
       >
         {" "}

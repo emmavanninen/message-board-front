@@ -1,28 +1,58 @@
 import React, { Component } from "react";
-import Post from './Post'
-
+import Post from "./Post";
+import { getAllPosts } from "../lib/api";
+import Context from "../Context/Context";
 
 export default class PostList extends Component {
+  static contextType = Context;
+
   state = {
-    posts: [
-      {
-        _id: 1,
-        username: "hamster",
-        text: "WOW WOW WOW"
-      },
-      {
-        _id: 2,
-        username: "Not a hamster",
-        text: "HEHE HEHE HEHE "
+    posts: [],
+    newPost: {}
+  }
+
+  componentDidMount = async () => {
+    try {
+      let success = await getAllPosts();
+
+      for (let post of success) {
+        this.setState({ posts: [...this.state.posts, post] });
       }
-    ]
+    } catch (e) {
+      console.log(e);
+    }
   };
+
+//   handleNewPost = async(post) => {
+//       try {
+//           let success = await getAllPosts();
+
+//           for (let post of success) {
+//               this.setState({ posts: [...this.state.posts, post] });
+//           }
+//       } catch (e) {
+//           console.log(e);
+//       }
+//       this.context.newPost = []
+//   };
+
   render() {
+    const { newPost } = this.context;
+    
+    if (newPost.length) {
+      this.setState({
+          newPost: newPost[0]
+      })
+    }
+
     return (
       <div>
-        {this.state.posts.map((item, i) => {
-          return <Post post={item} key={i} />;
-        })}
+        {this.state.posts
+          .slice(0)
+          .reverse()
+          .map((item, i) => {
+            return <Post post={item} key={i} />;
+          })}
       </div>
     );
   }

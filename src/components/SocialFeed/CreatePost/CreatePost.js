@@ -11,6 +11,7 @@ import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import Notifications, { notify } from "react-notify-toast";
 import Context from "../../Context/Context";
 import { createPost } from "../../lib/api";
+
 const errorToastColor = {
   background: "#f23535",
   text: "#fff"
@@ -63,8 +64,10 @@ const styles = theme => ({
     marginLeft: 5
   }
 });
+
 class NewPost extends Component {
   static contextType = Context;
+
   state = {
     text: "",
     photoName: ""
@@ -84,9 +87,8 @@ class NewPost extends Component {
 
     try {
       let success = await createPost(this.formData);
-      console.log(success);
 
-      //   this.context.handleSignin(success);
+      this.context.handleNewPost(success);
     } catch (e) {
       console.log(e);
     }
@@ -137,6 +139,8 @@ class NewPost extends Component {
 
   render() {
     const { classes } = this.props;
+    const { handleNewPost, newPost } = this.context;
+
     return (
       <div className={classes.root}>
         <Notifications options={{ zIndex: 200, top: "90px" }} />

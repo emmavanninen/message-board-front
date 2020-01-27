@@ -60,3 +60,13 @@ export const createPost = async postInfo => {
     return e.response.data.message;
   }
 };
+
+export const getAllPosts = async () => {
+    try {
+        let success = await Axios.get('api/post/get-all-posts')
+        return success.data
+
+    } catch (e){
+        return e.response.data.message;
+    }
+};

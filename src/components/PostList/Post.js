@@ -12,8 +12,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 // import Comments from "./Comments";
 import Context from "../Context/Context";
-
-
+// import { getAllPosts } from "../lib/api";
 
 const styles = theme => ({
   card: {
@@ -52,15 +51,27 @@ class Post extends Component {
     likes: 0,
     comments: []
   };
-  componentDidMount = async () => {};
+
+  componentDidMount = async () => {;
+  };
+
+    // componentDidUpdate = async () => { console.log('poop')}
+
   componentWillReceiveProps = props => {};
+
   checkLike = likes => {};
   like = () => {};
+
   updateComments = comments => {
     this.setState({ comments: comments });
   };
+
   deletePost = () => {};
   render() {
+    {
+    //   console.log(`props`, this.props.post);
+    }
+
     const { classes } = this.props;
     return (
       <Card className={classes.card}>
@@ -71,9 +82,8 @@ class Post extends Component {
           //     <DeleteIcon />
           //   </IconButton>
           //}
-        //   title={<Link to={''}>{this.props.post.postedBy.name}</Link>}
-          title={<Link to={''}>{this.props.post.username}</Link>}
-
+          //   title={<Link to={''}>{this.props.post.postedBy.name}</Link>}
+          title={<Link to={""}>{this.props.post.postedBy.username}</Link>}
           subheader={this.props.post.created}
           className={classes.cardHeader}
         />

@@ -15,6 +15,8 @@ export default class MainRouter extends Component {
   render() {
     const { isAuth } = this.context;
 
+    
+
     return (
       <div>
         <Nav theme={this.props.theme} />
@@ -24,7 +26,6 @@ export default class MainRouter extends Component {
           <Route exact path="/sign-up" component={SignUp}></Route>
 
           <PrivateRoute exact path="/user-profile" component={UserProfile} />
-
 
           {/* //! or:
           <Route exact path="/" component={Home}></Route>
