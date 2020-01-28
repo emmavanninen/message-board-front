@@ -44,6 +44,7 @@ const styles = theme => ({
     margin: theme.spacing()
   }
 });
+
 class Post extends Component {
   static contextType = Context;
 

@@ -90,17 +90,23 @@ export const commentPost = async (postid, comment) => {
   };
 
   try {
-    let success = await Axios.post(`api/post/commentPost`, commentObj);
+    let success = await Axios.post(`api/post/comment-post`, commentObj);
 
     return success.data.comments;
-
   } catch (e) {
     return e.response.data.message;
   }
 };
 
-export const deleteComment = async () => {
+export const deleteComment = async (postID, commentID) => {
+    console.log(postID, commentID);
+    
   try {
+    let success = await Axios.delete(
+      `api/post/delete-comment/${postID}/${commentID}`
+    );
+      return success.data.comments;
+      
   } catch (e) {
     return e.response.data.message;
   }

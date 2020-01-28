@@ -49,8 +49,16 @@ class Comments extends Component {
     this.setState({ [name]: event.target.value });
   };
 
-  deleteComment = comment => async event => {
-    console.log("poop");
+  deleteComment = async commentID => {
+    try {
+        let success = await deleteComment(this.props.postId, commentID)
+        this.props.updateComments(success);
+        this.setState({
+            text: ""
+        });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   handleKeyDown = async e => {
@@ -79,13 +87,19 @@ class Comments extends Component {
           </Link>
           <br />
           {item.text}
-              <span className={classes.commentDate}>{item.created} | {
-                  item.postedBy._id === this.context.user.id && (
-                      <IconButton onClick={this.deleteComment}>
-                          <DeleteIcon />
-                      </IconButton>
-                  )
-              }</span>
+          <span className={classes.commentDate}>
+            {item.created} |{" "}
+            {item.postedBy._id === this.context.user.id && (
+              <IconButton
+                //! call id in callback
+                onClick={() => {
+                  this.deleteComment(item._id);
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            )}
+          </span>
         </p>
       );
     };
@@ -110,13 +124,13 @@ class Comments extends Component {
           return (
             <CardHeader
               avatar={<Avatar className={classes.smallAvatar} src={""} />}
-            //   action={
-            //     item.postedBy._id === this.context.user.id && (
-            //       <IconButton onClick={this.deleteComment}>
-            //         <DeleteIcon />
-            //       </IconButton>
-            //     )
-            //   }
+              //   action={
+              //     item.postedBy._id === this.context.user.id && (
+              //       <IconButton onClick={this.deleteComment} className={item._id}>
+              //         <DeleteIcon />
+              //       </IconButton>
+              //     )
+              //   }
               title={commentBody(item)}
               className={classes.cardHeader}
               key={i}
