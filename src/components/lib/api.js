@@ -53,7 +53,6 @@ export const signin = async userInfo => {
 };
 
 export const createPost = async postInfo => {
-
   try {
     let success = await Axios.post("api/post/create-post", postInfo);
     return success.data;
@@ -76,7 +75,7 @@ export const getAllPosts = async () => {
 
 export const deletePost = async postid => {
   try {
-    let success = await Axios.delete(`api/post/delete/${postid}`);
+    let success = await Axios.delete(`api/post/deletePost/${postid}`);
 
     return success.data;
   } catch (e) {
@@ -85,20 +84,24 @@ export const deletePost = async postid => {
 };
 
 export const commentPost = async (postid, comment) => {
-    let commentObj = {
-        postid: postid,
-        comment: comment
-    }
-    
+  let commentObj = {
+    postid: postid,
+    comment: comment
+  };
+
   try {
-      let success = await Axios.post(`api/post/commentPost`, commentObj)
-    
-    return success.data;
+    let success = await Axios.post(`api/post/commentPost`, commentObj);
+
+    return success.data.comments;
+
   } catch (e) {
     return e.response.data.message;
   }
 };
 
-export const deleteComment = async ()=>{
-    
-}
+export const deleteComment = async () => {
+  try {
+  } catch (e) {
+    return e.response.data.message;
+  }
+};

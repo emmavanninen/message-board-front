@@ -91,12 +91,6 @@ export default class App extends Component {
     });
   };
 
-  comment = comment => {
-    this.setState({
-        comments: [comment, ...this.state.comments]
-    });
-  };
-
 
   render() {
     return (
@@ -110,7 +104,6 @@ export default class App extends Component {
           posts: this.state.posts,
           createPost: this.createPost,
           deletePost: this.deletePost,
-          comment: this.comment
         }}
       >
         {" "}

@@ -9,5 +9,4 @@ export default React.createContext({
   getAllPosts: () => {},
   createPost: () => {},
     deletePost: () => { },
-    comment: ()=>{}
 });

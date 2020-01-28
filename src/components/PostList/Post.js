@@ -53,38 +53,23 @@ class Post extends Component {
     comments: []
   };
 
-  componentDidMount = async () => {
-    this.getAllComments();
-  };
-
-  componentWillReceiveProps = props => {};
+  componentDidMount() {
+    this.setState({ comments: this.props.post.comments });
+  }
 
   checkLike = likes => {};
   like = () => {};
 
-  updateComments = comments => {};
+  updateComments = comments => {
+    this.setState({
+      comments: comments
+    });
+  };
 
   deletePost = async () => {
     try {
       let success = await deletePost(this.props.post._id);
       this.context.deletePost(success);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  getAllComments = async () => {
-    try {
-      let filteredArr = await this.context.posts.filter(
-        post => post._id === this.props.post._id
-      );
-
-      let comments = [];
-      for (let comment of filteredArr[0].comments) {
-        comments.push(comment);
-      }
-
-      this.setState({ comments: comments });
     } catch (e) {
       console.log(e);
     }
