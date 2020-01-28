@@ -10,9 +10,9 @@ import CommentIcon from "@material-ui/icons/Comment";
 import Divider from "@material-ui/core/Divider";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-// import Comments from "./Comments";
+import Comments from "./Comments";
 import Context from "../Context/Context";
-// import { getAllPosts } from "../lib/api";
+import { deletePost } from "../lib/api";
 
 const styles = theme => ({
   card: {
@@ -46,13 +46,15 @@ const styles = theme => ({
 });
 class Post extends Component {
   static contextType = Context;
+
   state = {
     like: false,
     likes: 0,
     comments: []
   };
 
-  componentDidMount = async () => {;
+  componentDidMount = async () => {
+    this.getAllComments();
   };
 
   componentWillReceiveProps = props => {};
@@ -60,30 +62,48 @@ class Post extends Component {
   checkLike = likes => {};
   like = () => {};
 
-  updateComments = comments => {
-    this.setState({ comments: comments });
-  };
+  updateComments = comments => {};
 
-  deletePost = () => {
-    
-
-  };
-  render() {
-    {
-    //   console.log(`props`, this.props.post);
+  deletePost = async () => {
+    try {
+      let success = await deletePost(this.props.post._id);
+      this.context.deletePost(success);
+    } catch (e) {
+      console.log(e);
     }
+  };
 
+  getAllComments = async () => {
+    try {
+      let filteredArr = await this.context.posts.filter(
+        post => post._id === this.props.post._id
+      );
+
+      let comments = [];
+      for (let comment of filteredArr[0].comments) {
+        comments.push(comment);
+      }
+
+      this.setState({ comments: comments });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  render() {
     const { classes } = this.props;
     return (
       <Card className={classes.card}>
         <CardHeader
           avatar={<Avatar src={""} />}
-          action={this.props.post.postedBy._id === this.context.user.id &&
-            <IconButton onClick={this.deletePost}>
-              <DeleteIcon />
-            </IconButton>
+          action={
+            this.props.post.postedBy._id === this.context.user.id && (
+              <IconButton onClick={this.deletePost}>
+                <DeleteIcon />
+              </IconButton>
+            )
           }
-            title={<Link to={''}>{this.props.post.postedBy.username}</Link>}
+          title={<Link to={""}>{this.props.post.postedBy.username}</Link>}
           subheader={this.props.post.created}
           className={classes.cardHeader}
         />
@@ -132,7 +152,11 @@ class Post extends Component {
           <span>{this.state.comments.length}</span>
         </CardActions>
         <Divider />
-        {/* <Comments postId={this.props.post._id} comments={this.state.comments} updateComments={this.updateComments}/> */}
+        <Comments
+          postId={this.props.post._id}
+          comments={this.state.comments}
+          updateComments={this.updateComments}
+        />
       </Card>
     );
   }

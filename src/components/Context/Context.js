@@ -7,5 +7,7 @@ export default React.createContext({
   logout: () => {},
   posts: [],
   getAllPosts: () => {},
-  createPost: () => {}
+  createPost: () => {},
+    deletePost: () => { },
+    comment: ()=>{}
 });

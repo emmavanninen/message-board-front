@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router
+    // , Route, Switch, Link 
+} from "react-router-dom";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { indigo, pink } from "@material-ui/core/colors";
@@ -30,7 +32,8 @@ export default class App extends Component {
     isAuth: false,
     user: null,
     newPost: [],
-    posts: []
+    posts: [],
+    comments: []
   };
 
   componentDidMount() {
@@ -53,12 +56,12 @@ export default class App extends Component {
       console.log(e);
     }
   };
+  
 
   createPost = post => {
     this.setState({
-        posts: [post, ...this.state.posts]
-    })
-
+      posts: [post, ...this.state.posts]
+    });
   };
 
   handleSignin = userInfo => {
@@ -79,6 +82,21 @@ export default class App extends Component {
     localStorage.removeItem("jwtToken-reddit");
   };
 
+  deletePost = deletedPost => {
+    let filteredArr = this.state.posts.filter(
+      post => deletedPost._id !== post._id
+    );
+    this.setState({
+      posts: filteredArr
+    });
+  };
+
+  comment = comment => {
+    this.setState({
+        comments: [comment, ...this.state.comments]
+    });
+  };
+
 
   render() {
     return (
@@ -90,7 +108,9 @@ export default class App extends Component {
           logout: this.logout,
           getAllPosts: this.getAllPosts,
           posts: this.state.posts,
-          createPost: this.createPost
+          createPost: this.createPost,
+          deletePost: this.deletePost,
+          comment: this.comment
         }}
       >
         {" "}

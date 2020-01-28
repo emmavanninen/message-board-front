@@ -13,7 +13,7 @@ export default class MainRouter extends Component {
   static contextType = Context;
 
   render() {
-    const { isAuth } = this.context;
+    // const { isAuth } = this.context;
 
     
 
