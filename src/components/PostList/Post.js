@@ -12,7 +12,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import Comments from "./Comments";
 import Context from "../Context/Context";
-import { deletePost } from "../lib/api";
+import { deletePost, likePost, deletePostLike, getLikes } from "../lib/api";
 
 const styles = theme => ({
   card: {
@@ -49,19 +49,57 @@ class Post extends Component {
   static contextType = Context;
 
   state = {
-    like: false,
-    likes: 0,
+    toggleLike: false,
+    likes: this.props.post.likes.length,
     comments: []
   };
 
   componentDidMount() {
     this.setState({ comments: this.props.post.comments });
+    this.checkLike();
   }
 
-  checkLike = likes => {};
-  like = () => {};
+  checkLike = async likes => {
+    for (let user of this.props.post.likes) {
+      if (user === this.context.user.id) {
+        this.setState({
+          toggleLike: true
+        });
+      } else {
+        this.setState({
+          toggleLike: false
+        });
+      }
+    }
+  };
+
+  like = async () => {
+    if (!this.state.toggleLike) {
+      let success = await likePost(this.props.post._id);
+      try {
+        await this.setState({
+          toggleLike: true,
+          likes: this.props.post.likes.length
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    } else if (this.state.toggleLike) {
+      let success = await deletePostLike(this.props.post._id);
+      try {
+        await this.setState({
+          toggleLike: false,
+          likes: this.props.post.likes.length
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
 
   updateComments = comments => {
+    console.log(`!!!`, comments);
+
     this.setState({
       comments: comments
     });
@@ -108,7 +146,7 @@ class Post extends Component {
           )}
         </CardContent>
         <CardActions>
-          {this.state.like ? (
+          {this.state.toggleLike ? (
             <IconButton
               onClick={this.like}
               className={classes.button}

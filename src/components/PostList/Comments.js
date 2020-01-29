@@ -53,9 +53,9 @@ class Comments extends Component {
     try {
         let success = await deleteComment(this.props.postId, commentID)
         this.props.updateComments(success);
-        this.setState({
-            text: ""
-        });
+        // this.setState({
+        //     text: ""
+        // });
     } catch (e) {
       console.log(e);
     }

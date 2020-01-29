@@ -142,7 +142,7 @@ class NewPost extends Component {
     });
   };
 
-  render() {
+    render() {
     const { classes } = this.props;
 
     return (

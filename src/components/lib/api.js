@@ -99,15 +99,33 @@ export const commentPost = async (postid, comment) => {
 };
 
 export const deleteComment = async (postID, commentID) => {
-    console.log(postID, commentID);
-    
   try {
     let success = await Axios.delete(
       `api/post/delete-comment/${postID}/${commentID}`
     );
-      return success.data.comments;
-      
+    return success.data.comments;
   } catch (e) {
     return e.response.data.message;
+  }
+};
+
+export const likePost = async postID => {
+  try {
+    let success = await Axios.post(`api/post/like-post/${postID}`);
+    console.log(`from back true`, success.data);
+
+    return success.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deletePostLike = async postID => {
+  try {
+    let success = await Axios.delete(`api/post/delete-like/${postID}`);
+    console.log(`from back false`, success.data);
+    return success.data;
+  } catch (e) {
+    console.log(e);
   }
 };

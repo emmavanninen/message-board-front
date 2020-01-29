@@ -20,7 +20,7 @@ export default class PostList extends Component {
     return (
       <div>
         {this.context.posts.map((item, i) => {
-          return <Post post={item} key={i} />;
+          return <Post post={item} key={item._id} />;
         })}
       </div>
     );
