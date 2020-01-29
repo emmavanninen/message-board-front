@@ -79,17 +79,18 @@ class Post extends Component {
       try {
         await this.setState({
           toggleLike: true,
-          likes: this.props.post.likes.length
+          likes: this.state.likes + 1
         });
       } catch (e) {
         console.log(e);
       }
     } else if (this.state.toggleLike) {
       let success = await deletePostLike(this.props.post._id);
+      
       try {
         await this.setState({
           toggleLike: false,
-          likes: this.props.post.likes.length
+            likes: this.state.likes - 1
         });
       } catch (e) {
         console.log(e);
