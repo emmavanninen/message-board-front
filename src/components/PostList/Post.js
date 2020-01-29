@@ -65,11 +65,7 @@ class Post extends Component {
         this.setState({
           toggleLike: true
         });
-      } else {
-        this.setState({
-          toggleLike: false
-        });
-      }
+      } 
     }
   };
 
@@ -99,8 +95,6 @@ class Post extends Component {
   };
 
   updateComments = comments => {
-    console.log(`!!!`, comments);
-
     this.setState({
       comments: comments
     });

@@ -111,8 +111,7 @@ export const deleteComment = async (postID, commentID) => {
 
 export const likePost = async postID => {
   try {
-    let success = await Axios.post(`api/post/like-post/${postID}`);
-    console.log(`from back true`, success.data);
+    let success = await Axios.put(`api/post/like-post/${postID}`);
 
     return success.data;
   } catch (e) {
@@ -123,7 +122,6 @@ export const likePost = async postID => {
 export const deletePostLike = async postID => {
   try {
     let success = await Axios.delete(`api/post/delete-like/${postID}`);
-    console.log(`from back false`, success.data);
     return success.data;
   } catch (e) {
     console.log(e);
