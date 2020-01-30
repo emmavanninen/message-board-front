@@ -6,7 +6,9 @@ export default React.createContext({
   handleSignin: () => {},
   logout: () => {},
   posts: [],
+  users: [],
   getAllPosts: () => {},
+  getAllUsers: () => {},
   createPost: () => {},
-    deletePost: () => { },
+  deletePost: () => {}
 });

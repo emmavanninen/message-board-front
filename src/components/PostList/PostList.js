@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Post from "./Post";
-import { getAllPosts } from "../lib/api";
+import getAllPosts from "../lib/api";
 import Context from "../Context/Context";
 
 export default class PostList extends Component {

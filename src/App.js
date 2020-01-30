@@ -8,7 +8,8 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { indigo, pink } from "@material-ui/core/colors";
 import MainRouter from "./MainRouter";
 import Context from "./components/Context/Context";
-import { checkTokenAuth, getAllPosts } from "./components/lib/api";
+import getAllPosts, { checkTokenAuth } from "./components/lib/api";
+import { getAllUsers } from "./components/lib/api";
 
 import Spinner from "./components/Spinner/Spinner";
 
@@ -46,6 +47,7 @@ export default class App extends Component {
       this.handleSignin(user);
     }
     this.getAllPosts();
+    this.getAllUsers();
   }
 
   getAllPosts = async () => {
@@ -54,6 +56,18 @@ export default class App extends Component {
 
       this.setState({
         posts: success
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  getAllUsers = async () => {
+    try {
+      let success = await getAllUsers();
+
+      this.setState({
+        users: success
       });
     } catch (e) {
       console.log(e);
@@ -102,7 +116,9 @@ export default class App extends Component {
           handleSignin: this.handleSignin,
           logout: this.logout,
           getAllPosts: this.getAllPosts,
+          getAllUsers: this.getAllUsers,
           posts: this.state.posts,
+          users: this.state.users,
           createPost: this.createPost,
           deletePost: this.deletePost
         }}

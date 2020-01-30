@@ -52,6 +52,30 @@ export const signin = async userInfo => {
   }
 };
 
+export const getAllUsers = async () =>{
+    let jwtToken = localStorage.getItem("jwtToken-reddit");
+    checkTokenAuth(jwtToken);
+    try {
+        let success = await Axios.get("api/users/get-all-users");
+        return success.data;
+    }
+    catch (e) {
+        return e.response.data.message;
+    }
+}
+
+export default async () => {
+    let jwtToken = localStorage.getItem("jwtToken-reddit");
+    checkTokenAuth(jwtToken);
+    try {
+        let success = await Axios.get("api/post/get-all-posts");
+        return success.data;
+    }
+    catch (e) {
+        return e.response.data.message;
+    }
+};
+
 export const createPost = async postInfo => {
   try {
     let success = await Axios.post("api/post/create-post", postInfo);
@@ -61,17 +85,6 @@ export const createPost = async postInfo => {
   }
 };
 
-export const getAllPosts = async () => {
-  let jwtToken = localStorage.getItem("jwtToken-reddit");
-  checkTokenAuth(jwtToken);
-
-  try {
-    let success = await Axios.get("api/post/get-all-posts");
-    return success.data;
-  } catch (e) {
-    return e.response.data.message;
-  }
-};
 
 export const deletePost = async postid => {
   try {

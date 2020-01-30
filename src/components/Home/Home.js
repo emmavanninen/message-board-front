@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Context from "../Context/Context";
 
 import Socialfeed from "../SocialFeed/SocialFeed";
+import AllUsers from "../AllUsers/AllUsers";
 
 const placeholder = "./toa-heftiba-6E7wzcusEDU-unsplash.jpg";
 
@@ -35,11 +36,29 @@ class Home extends Component {
       <div>
         {isAuth ? (
           <Grid container>
-            <Grid item xs={7} sm={7}>
+            <Grid
+              item
+              xs={7}
+              sm={7}
+              style={{
+                paddingTop: "30px",
+                paddingLeft: "30px",
+                paddingRight: "15px"
+              }}
+            >
               <Socialfeed />
             </Grid>
-            <Grid item xs={5} sm={5}>
-              Another
+            <Grid
+              item
+              xs={5}
+              sm={5}
+              style={{
+                paddingTop: "30px",
+                paddingLeft: "30px",
+                paddingRight: "25px"
+              }}
+            >
+              <AllUsers />
             </Grid>
           </Grid>
         ) : (
