@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router
-    // , Route, Switch, Link 
+import {
+  BrowserRouter as Router
+  // , Route, Switch, Link
 } from "react-router-dom";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
@@ -8,6 +9,8 @@ import { indigo, pink } from "@material-ui/core/colors";
 import MainRouter from "./MainRouter";
 import Context from "./components/Context/Context";
 import { checkTokenAuth, getAllPosts } from "./components/lib/api";
+
+import Spinner from "./components/Spinner/Spinner";
 
 const theme = createMuiTheme({
   palette: {
@@ -56,7 +59,6 @@ export default class App extends Component {
       console.log(e);
     }
   };
-  
 
   createPost = post => {
     this.setState({
@@ -91,9 +93,7 @@ export default class App extends Component {
     });
   };
 
-
   render() {
-      
     return (
       <Context.Provider
         value={{
@@ -104,14 +104,16 @@ export default class App extends Component {
           getAllPosts: this.getAllPosts,
           posts: this.state.posts,
           createPost: this.createPost,
-          deletePost: this.deletePost,
+          deletePost: this.deletePost
         }}
       >
         {" "}
         <Router>
-          <MuiThemeProvider theme={theme}>
-            <MainRouter theme={theme} />
-          </MuiThemeProvider>
+          <React.Suspense fallback={<Spinner />}>
+            <MuiThemeProvider theme={theme}>
+              <MainRouter theme={theme} />
+            </MuiThemeProvider>
+          </React.Suspense>
         </Router>
       </Context.Provider>
     );
